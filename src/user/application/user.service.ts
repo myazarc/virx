@@ -1,4 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
+import { compare } from 'src/common/bcyrpt';
 import { LoginRequestDto } from 'src/common/dto/login.request.dto';
 import { UserRepository } from '../domain/user.repository';
 import { RegisterRequestDto } from './dto/register.request.dto';
@@ -17,7 +18,7 @@ export class UserService {
 
       if (user) {
         //TODO: make password hash
-        if (user.password === password) {
+        if (await compare(password, user.password)) {
           return user;
         }
       }

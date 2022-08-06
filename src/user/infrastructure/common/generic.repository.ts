@@ -20,7 +20,8 @@ export class GenericRepository<T> implements IGenericRepository<T> {
     return this.repository.find();
   }
   async create(entity: T): Promise<T> {
-    return this.repository.save(entity);
+    const e = this.repository.create(entity);
+    return this.repository.save(e);
   }
   async delete(id: T): Promise<T> {
     const entity = await this.repository.findOne(id);
