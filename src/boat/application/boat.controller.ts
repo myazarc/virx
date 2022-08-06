@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -12,6 +13,7 @@ import {
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { BoatCreateRequestDto } from 'src/common/dto/boat.create.request.dto';
+import { BoatSearchRequestDto } from 'src/common/dto/boat.search.request.dto';
 import { BoatTypeCreateRequestDto } from 'src/common/dto/boatType.create.request.dto';
 import { ResponseService } from 'src/common/response.service';
 import { BoatService } from './boat.service';
@@ -108,6 +110,29 @@ export class BoatController {
       return res.status(HttpStatus.CREATED).json(response);
     } else {
       response.setError('Boat type not created');
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+    }
+  }
+
+  @Get('search')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.OK, type: ResponseService })
+  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR })
+  @ApiTags('boat')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  public async find(
+    @Res() res,
+    @Query() params: BoatSearchRequestDto,
+  ): Promise<any> {
+    const response = new ResponseService();
+    const result = await this.boatService.search(params);
+    if (result) {
+      response.setStatus(true);
+      response.setData(result);
+      return res.status(HttpStatus.OK).json(response);
+    } else {
+      response.setError('Not found avaible boat');
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
     }
   }

@@ -7,7 +7,7 @@ import {
   IsOptional,
 } from 'class-validator';
 
-export class BookingSearchRequestDto {
+export class BoatSearchRequestDto {
   @IsNotEmpty()
   @ApiProperty({ type: Number, required: true })
   location: number;

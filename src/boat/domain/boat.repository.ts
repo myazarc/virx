@@ -1,4 +1,6 @@
 import { IGenericRepository } from 'src/common/generic/IGenericRepository';
 import { IBoat } from './boat';
 
-export interface BoatRepository extends IGenericRepository<IBoat> {}
+export interface BoatRepository extends IGenericRepository<IBoat> {
+  search(params: any): Promise<any>;
+}

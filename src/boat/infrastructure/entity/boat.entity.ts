@@ -1,6 +1,14 @@
 import { IBoat } from 'src/boat/domain/boat';
 import { BaseEntityImpl } from 'src/common/infrastructure/entity/base_entity';
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { BoatTypeEntity } from './boattype.entity';
 
 @Entity('boats')

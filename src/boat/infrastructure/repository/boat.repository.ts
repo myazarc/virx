@@ -12,4 +12,15 @@ export class BoatRepositoryImplement
     const boatRepository = dataSource.getRepository(BoatEntity);
     super(boatRepository);
   }
+
+  search(params: any): Promise<any> {
+    const { bookings, ...param } = params;
+    return this.getQueryBuilder()
+      .where(param)
+      .andWhere(
+        (qb) =>
+          `"boats"."id" NOT IN (SELECT "boatId" FROM "bookings" WHERE '${bookings.startDate}' BETWEEN "startDate" AND "endDate" OR '${bookings.endDate}' BETWEEN "startDate" AND "endDate")`,
+      )
+      .getMany();
+  }
 }

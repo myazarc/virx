@@ -1,5 +1,5 @@
 import { IGenericRepository } from 'src/common/generic/IGenericRepository';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
 
 export class GenericRepository<T> implements IGenericRepository<T> {
   constructor(private readonly repository: Repository<T>) {}
@@ -14,6 +14,12 @@ export class GenericRepository<T> implements IGenericRepository<T> {
 
   update(query: T, payload: T): Promise<UpdateResult> {
     return this.repository.update(query, payload);
+  }
+
+  getQueryBuilder(): SelectQueryBuilder<T> {
+    return this.repository.createQueryBuilder(
+      this.repository.metadata.tableName,
+    );
   }
 
   async findById(id: T): Promise<T> {
