@@ -19,5 +19,11 @@ import { BoatTypeRepositoryImplement } from './infrastructure/repository/boattyp
       useClass: BoatTypeRepositoryImplement,
     },
   ],
+  exports: [
+    {
+      provide: InjectionToken.BoatRepository,
+      useClass: BoatRepositoryImplement,
+    },
+  ],
 })
 export class BoatModule {}

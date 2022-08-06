@@ -16,6 +16,7 @@ async function bootstrap() {
     .addTag('user')
     .addTag('location')
     .addTag('boat')
+    .addTag('booking')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
