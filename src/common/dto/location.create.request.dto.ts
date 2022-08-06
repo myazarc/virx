@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
-export class LocationCreateRequestDTO {
+export class LocationCreateRequestDto {
   @IsString()
   @ApiProperty()
   name: string;
   @ApiProperty({ type: Boolean, required: false, default: true })
+  @IsOptional()
   isActive?: boolean;
 }

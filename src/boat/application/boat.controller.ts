@@ -5,36 +5,37 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { LocationCreateRequestDto } from 'src/common/dto/location.create.request.dto';
+import { BoatCreateRequestDto } from 'src/common/dto/boat.create.request.dto';
 import { ResponseService } from 'src/common/response.service';
-import { LocationService } from './location.service';
+import { BoatService } from './boat.service';
 
-@Controller('location')
-export class LocationController {
-  constructor(private readonly locationService: LocationService) {}
+@Controller('boat')
+export class BoatController {
+  constructor(private readonly boatService: BoatService) {}
 
   @Get('all')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({ status: HttpStatus.OK, type: ResponseService })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR })
-  @ApiTags('location')
+  @ApiTags('boat')
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   public async all(@Res() res): Promise<any> {
     const response = new ResponseService();
-    const result = await this.locationService.all();
+    const result = await this.boatService.all();
 
     if (result) {
       response.setStatus(true);
       response.setData(result);
       return res.status(HttpStatus.OK).json(response);
     } else {
-      response.setError('Location not found');
+      response.setError('Boat not found');
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
     }
   }
@@ -44,22 +45,23 @@ export class LocationController {
   @ApiResponse({ status: HttpStatus.CREATED })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST })
-  @ApiTags('location')
+  @ApiTags('boat')
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   public async create(
     @Res() res,
-    @Body() payload: LocationCreateRequestDto,
+    @Req() req,
+    @Body() payload: BoatCreateRequestDto,
   ): Promise<any> {
     const response = new ResponseService();
-
-    const result = await this.locationService.create(payload);
+    payload.user = req.user.id;
+    const result = await this.boatService.create(payload);
     if (result) {
       response.setStatus(true);
       response.setData(result);
       return res.status(HttpStatus.CREATED).json(response);
     } else {
-      response.setError('Location not created');
+      response.setError('Boat not created');
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
     }
   }

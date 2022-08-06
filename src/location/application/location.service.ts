@@ -10,7 +10,7 @@ export class LocationService {
     private readonly locationRepository: LocationRepository,
   ) {}
 
-  async all(): Promise<any> {
+  async all(): Promise<ILocation[]> {
     try {
       return await this.locationRepository.findByAll({
         isActive: true,
