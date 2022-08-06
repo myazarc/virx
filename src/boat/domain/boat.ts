@@ -10,4 +10,5 @@ export interface IBoat extends IGeneric {
   prePaymentRate: number;
   personCapacity: number;
   isCrewed: boolean;
+  type: any;
 }

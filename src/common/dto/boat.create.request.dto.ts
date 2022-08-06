@@ -47,5 +47,10 @@ export class BoatCreateRequestDto {
   @ApiProperty({ type: Boolean, required: true })
   isCrewed: boolean;
 
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ type: Number, required: true })
+  type: number;
+
   user?: number;
 }

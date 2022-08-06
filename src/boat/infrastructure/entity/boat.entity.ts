@@ -1,6 +1,7 @@
 import { IBoat } from 'src/boat/domain/boat';
 import { BaseEntityImpl } from 'src/common/infrastructure/entity/base_entity';
 import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { BoatTypeEntity } from './boattype.entity';
 
 @Entity('boats')
 export class BoatEntity extends BaseEntityImpl implements IBoat {
@@ -17,6 +18,13 @@ export class BoatEntity extends BaseEntityImpl implements IBoat {
     nullable: false,
   })
   location: number;
+
+  @ManyToOne(() => BoatTypeEntity, (boatType) => boatType.boats, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'CASCADE',
+    nullable: false,
+  })
+  type: BoatTypeEntity;
 
   @Column('text', { nullable: false })
   title: string;
