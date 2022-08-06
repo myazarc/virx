@@ -12,5 +12,5 @@ export class BaseEntityImpl {
   @DeleteDateColumn({ nullable: true })
   deletedAt?: Date;
   @CreateDateColumn({ nullable: true })
-  createdAt?: Date = null;
+  createdAt?: Date;
 }

@@ -1,8 +1,12 @@
-import { IGenericRepository } from 'src/user/domain/common/IGenericRepository';
+import { IGenericRepository } from 'src/common/generic/IGenericRepository';
 import { Repository, UpdateResult } from 'typeorm';
 
 export class GenericRepository<T> implements IGenericRepository<T> {
   constructor(private readonly repository: Repository<T>) {}
+
+  findByAll(payload: T): Promise<T[]> {
+    return this.repository.find(payload);
+  }
 
   findByOne(query: T): Promise<T> {
     return this.repository.findOneBy(query);

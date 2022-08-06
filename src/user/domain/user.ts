@@ -1,4 +1,4 @@
-import { IGeneric } from './common/IGeneric';
+import { IGeneric } from 'src/common/generic/IGeneric';
 
 export interface IUser extends IGeneric {
   name: string;

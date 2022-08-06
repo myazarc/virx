@@ -1,7 +1,7 @@
 import { InjectDataSource } from '@nestjs/typeorm';
 import { UserRepository } from 'src/user/domain/user.repository';
 import { DataSource } from 'typeorm';
-import { GenericRepository } from '../common/generic.repository';
+import { GenericRepository } from 'src/common/infrastructure/repository/generic.repository';
 import { UserEntity } from '../entity/user.entity';
 
 export class UserRepositoryImplement

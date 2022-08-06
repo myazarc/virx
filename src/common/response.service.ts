@@ -1,3 +1,9 @@
+export type IResponseService = {
+  status: boolean;
+  data: any;
+  error: any;
+};
+
 export class ResponseService {
   private status = false;
   private data: any = null;
@@ -15,7 +21,7 @@ export class ResponseService {
     this.error = error;
   }
 
-  get() {
+  get(): IResponseService {
     return {
       status: this.status,
       data: this.data,

@@ -1,7 +1,7 @@
 import { hash } from 'src/common/bcyrpt';
 import { IUser } from 'src/user/domain/user';
 import { Entity, Column, Index, BeforeInsert } from 'typeorm';
-import { BaseEntityImpl } from '../common/base_entity';
+import { BaseEntityImpl } from 'src/common/infrastructure/entity/base_entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntityImpl implements IUser {
