@@ -7,6 +7,7 @@ import { BaseEntityImpl } from 'src/common/infrastructure/entity/base_entity';
 export class UserEntity extends BaseEntityImpl implements IUser {
   @Column('text')
   name: string;
+  @Index()
   @Column({ unique: true })
   email: string;
   @Column('text')
