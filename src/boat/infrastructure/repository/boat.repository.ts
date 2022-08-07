@@ -19,7 +19,7 @@ export class BoatRepositoryImplement
       .where(param)
       .andWhere(
         (qb) =>
-          `"boats"."id" NOT IN (SELECT "boatId" FROM "bookings" WHERE '${bookings.startDate}' BETWEEN "startDate" AND "endDate" OR '${bookings.endDate}' BETWEEN "startDate" AND "endDate")`,
+          `"boats"."id" NOT IN (SELECT "boatId" FROM "bookings" WHERE "startDate" BETWEEN '${bookings.startDate}' AND '${bookings.endDate}' OR "endDate" BETWEEN '${bookings.startDate}' AND '${bookings.endDate}')`,
       )
       .getMany();
   }

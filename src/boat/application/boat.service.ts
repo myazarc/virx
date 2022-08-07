@@ -5,7 +5,7 @@ import { BoatRepository } from '../domain/boat.repository';
 import { BoatTypeRepository } from '../domain/boattype.repository';
 import { InjectionToken } from './injection.token';
 import * as dayjs from 'dayjs';
-import { Between } from 'typeorm';
+import { Between, In } from 'typeorm';
 
 @Injectable()
 export class BoatService {
@@ -69,7 +69,7 @@ export class BoatService {
         where.isCrewed = params.isCrewed;
       }
       if (params?.type) {
-        where.type = params.type;
+        where.type = Array.isArray(params.type) ? In(params.type) : params.type;
       }
 
       if (params?.personCapacityStart && params?.personCapacityEnd) {

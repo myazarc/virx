@@ -1,4 +1,4 @@
-import { hash } from 'src/common/bcyrpt';
+import { hash } from 'src/common/passwordHash';
 import { IUser } from 'src/user/domain/user';
 import { Entity, Column, Index, BeforeInsert } from 'typeorm';
 import { BaseEntityImpl } from 'src/common/infrastructure/entity/base_entity';

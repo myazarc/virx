@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsBoolean,
+  IsBooleanString,
   IsDateString,
   IsNotEmpty,
-  IsNumber,
+  IsNumberString,
   IsOptional,
 } from 'class-validator';
 
@@ -22,32 +24,32 @@ export class BoatSearchRequestDto {
   @ApiProperty({ type: Date, required: true })
   endDate: Date;
 
-  @IsNumber()
+  @IsNumberString({}, { each: true })
   @IsOptional()
   @ApiProperty({ type: [Number], required: false })
   type?: number[];
 
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
   priceStart?: number;
 
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
   priceEnd?: number;
 
-  @IsBoolean()
+  @IsBooleanString()
   @IsOptional()
   @ApiProperty({ type: Boolean, required: false })
   isCrewed?: boolean;
 
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
   personCapacityStart?: number;
 
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   @ApiProperty({ type: Number, required: false })
   personCapacityEnd?: number;
