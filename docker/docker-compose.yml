@@ -1,6 +1,20 @@
 version: '3'
 
 services:
+  app:
+    container_name: app
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./app/.env
+    depends_on:
+      - postgres
+      - elasticsearch
+    restart: unless-stopped
+
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
@@ -11,6 +25,8 @@ services:
       - '9300:9300'
     environment:
       ES_JAVA_OPTS: '-Xmx256m -Xms256m'
+    restart: unless-stopped
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.17.5
@@ -20,3 +36,32 @@ services:
       - '5601:5601'
     depends_on:
       - elasticsearch
+    restart: unless-stopped
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-123}
+      POSTGRES_DB: ${POSTGRES_DB:-virx}
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres:/data/postgres
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+
+    ports:
+      - '${PGADMIN_PORT:-8088}:80'
+    restart: unless-stopped
