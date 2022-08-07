@@ -19,6 +19,7 @@ export class BoatService {
   ) {}
 
   async integrateForEs(): Promise<any> {
+    await this.boatElasticService.createMapping();
     const boats = await this.all();
     await this.boatElasticService.createBoats(boats);
     return true;

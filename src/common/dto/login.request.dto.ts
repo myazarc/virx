@@ -8,10 +8,16 @@ export class LoginRequestDto {
       message: 'Email is not valid',
     },
   )
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Default email: mail@example.ext',
+    default: 'mail@example.ext',
+  })
   email: string;
 
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Default password: password',
+    default: 'password',
+  })
   password: string;
 }
