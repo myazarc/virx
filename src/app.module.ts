@@ -8,6 +8,7 @@ import { AppController } from './app.controller';
 import { LocationModule } from './location/location.module';
 import { BoatModule } from './boat/boat.module';
 import { BookingModule } from './booking/booking.module';
+import { EsModule } from './es/es.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { BookingModule } from './booking/booking.module';
     LocationModule,
     BoatModule,
     BookingModule,
+    EsModule,
   ],
   controllers: [AppController],
   providers: [],

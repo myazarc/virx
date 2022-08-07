@@ -6,21 +6,31 @@ import { BoatTypeRepository } from '../domain/boattype.repository';
 import { InjectionToken } from './injection.token';
 import * as dayjs from 'dayjs';
 import { Between, In } from 'typeorm';
+import { BoatElasticService } from './boat.elastic.service';
 
 @Injectable()
 export class BoatService {
   constructor(
+    private readonly boatElasticService: BoatElasticService,
     @Inject(InjectionToken.BoatRepository)
     private readonly boatRepository: BoatRepository,
     @Inject(InjectionToken.BoatTypeRepository)
     private readonly boatTypeRepository: BoatTypeRepository,
   ) {}
 
+  async integrateForEs(): Promise<any> {
+    const boats = await this.all();
+    await this.boatElasticService.createBoats(boats);
+    return true;
+  }
+
   async all(): Promise<IBoat[]> {
     try {
       return await this.boatRepository.findByAll({
         isActive: true,
-      } as IBoat);
+
+        relations: ['type', 'location'],
+      } as any);
     } catch (error) {
       throw error;
     }
@@ -28,7 +38,11 @@ export class BoatService {
 
   async create(boat: any): Promise<any> {
     try {
-      return await this.boatRepository.create(boat);
+      const boatRes = await this.boatRepository.create(boat);
+      if (boatRes) {
+        await this.boatElasticService.createBoat(boatRes);
+      }
+      return boatRes;
     } catch (error) {
       throw error;
     }
@@ -79,6 +93,14 @@ export class BoatService {
         );
       }
       return await this.boatRepository.search(where);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async searchWithEs(params: BoatSearchRequestDto): Promise<any> {
+    try {
+      return await this.boatElasticService.getAvailable(params);
     } catch (error) {
       throw error;
     }

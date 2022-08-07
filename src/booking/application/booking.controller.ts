@@ -92,4 +92,20 @@ export class BookingController {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
     }
   }
+
+  @Get('es/integrate')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR })
+  @ApiTags('booking')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  public async integrateEs(@Res() res): Promise<any> {
+    const result = await this.bookingService.integrateForEs();
+    if (result) {
+      return res.status(HttpStatus.NO_CONTENT);
+    } else {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

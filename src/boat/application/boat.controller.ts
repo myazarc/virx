@@ -136,4 +136,43 @@ export class BoatController {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
     }
   }
+
+  @Get('searchwithes')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.OK, type: ResponseService })
+  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR })
+  @ApiTags('boat')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  public async findWithEs(
+    @Res() res,
+    @Query() params: BoatSearchRequestDto,
+  ): Promise<any> {
+    const response = new ResponseService();
+    const result = await this.boatService.searchWithEs(params);
+    if (result) {
+      response.setStatus(true);
+      response.setData(result);
+      return res.status(HttpStatus.OK).json(response);
+    } else {
+      response.setError('Not found avaible boat');
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+    }
+  }
+
+  @Get('es/integrate')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR })
+  @ApiTags('boat')
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  public async integrateEs(@Res() res): Promise<any> {
+    const result = await this.boatService.integrateForEs();
+    if (result) {
+      return res.status(HttpStatus.NO_CONTENT);
+    } else {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }
